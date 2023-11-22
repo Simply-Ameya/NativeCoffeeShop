@@ -5,9 +5,9 @@ import React from 'react';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import HomeScreen from '../screens/home-screen/HomeScreen';
-import CartScreen from '../screens/CartScreen';
-import FavouriteScreen from '../screens/FavouriteScreen';
-import OrderHistoryScreen from '../screens/OrderHistoryScreen';
+import CartScreen from '../screens/cart-screen/CartScreen';
+import FavouriteScreen from '../screens/favourite-screen/FavouriteScreen';
+import OrderHistoryScreen from '../screens/order-history-screen/OrderHistoryScreen';
 import CustomIcon from '../components/CustomIcon';
 import {COLORS} from '../theme/theme';
 

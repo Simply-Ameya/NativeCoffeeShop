@@ -4,8 +4,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import PaymentScreen from './src/screens/PaymentScreen';
-import DetailsScreen from './src/screens/DetailsScreen';
+import PaymentScreen from './src/screens/payment-screen/PaymentScreen';
+import DetailsScreen from './src/screens/details-screen/DetailsScreen';
 import TabNavigator from './src/navigators/TabNavigator';
 
 const Stack = createNativeStackNavigator();
