@@ -9,6 +9,7 @@ import {CoffeeState} from '../../entities/coffeeData.interface';
 import * as HomeScreenHelper from '../../helper/homeScreenHelper';
 import {styles} from './HomeScreen.styles';
 import {COLORS} from '../../theme/theme';
+import HeaderBar from '../../components/header-bar/HeaderBar';
 
 const HomeScreen = () => {
   const coffeeList = useStore((state: CoreState) => state.CoffeeList);
@@ -36,6 +37,7 @@ const HomeScreen = () => {
         showsVerticalScrollIndicator={false}
         contentContainerStyle={styles.scrollViewFlex}>
         {/* App Header */}
+        <HeaderBar />
       </ScrollView>
     </View>
   );
