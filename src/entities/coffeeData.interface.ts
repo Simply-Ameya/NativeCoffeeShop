@@ -1,11 +1,12 @@
-import {Prices} from './coffeePrices.interface';
+import {ImageProps} from 'react-native';
+import {Prices} from './prices.interface';
 
 export interface CoffeeState {
   id: string;
   name: string;
   description: string;
   roasted: string;
-  imagelink_square: string;
+  imagelink_square: ImageProps;
   imagelink_portrait: string;
   ingredients: string;
   special_ingredient: string;

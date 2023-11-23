@@ -1,3 +1,4 @@
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {
   BORDERRADIUS,
   COLORS,
@@ -6,6 +7,8 @@ import {
   SPACING,
 } from '../../theme/theme';
 import {StyleSheet} from 'react-native';
+
+const tabBarHeight = useBottomTabBarHeight();
 
 export const styles = StyleSheet.create({
   screenContainer: {
@@ -62,5 +65,20 @@ export const styles = StyleSheet.create({
     width: SPACING.space_10,
     borderRadius: BORDERRADIUS.radius_10,
     backgroundColor: COLORS.primaryOrangeHex,
+  },
+  FlatListContainer: {
+    gap: SPACING.space_20,
+    paddingVertical: SPACING.space_20,
+    paddingHorizontal: SPACING.space_30,
+  },
+  CoffeeBeansTitle: {
+    fontSize: FONTSIZE.size_18,
+    marginLeft: SPACING.space_30,
+    marginTop: SPACING.space_20,
+    fontFamily: FONTFAMILY.poppins_medium,
+    color: COLORS.secondaryLightGreyHex,
+  },
+  BeansListMarginBottom: {
+    marginBottom: tabBarHeight,
   },
 });
