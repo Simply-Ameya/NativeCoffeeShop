@@ -7,8 +7,9 @@ import {
   TextInput,
   FlatList,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, {MutableRefObject, useRef, useState} from 'react';
 import {useStore} from '../../store/store';
+import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 
 import {CoreState} from '../../entities/store.interface';
 import {CoffeeState} from '../../entities/coffeeData.interface';
@@ -27,6 +28,10 @@ const HomeScreen = () => {
   const coffeeList = useStore((state: CoreState) => state.CoffeeList);
   const beanList = useStore((state: CoreState) => state.BeanList);
 
+  const listRef = useRef() as MutableRefObject<FlatList>;
+
+  const tabBarHeight = useBottomTabBarHeight();
+
   //component state
   const [categories, setCategories] = useState<string[]>(
     HomeScreenHelper.getCategoriesFromData(coffeeList),
@@ -39,7 +44,30 @@ const HomeScreen = () => {
   const [sortedCoffee, setSortedCoffee] = useState<CoffeeState[]>(
     HomeScreenHelper.getCoffeeList(categoryIndex.category, coffeeList),
   );
-  // console.log(sortedCoffee.length);
+
+  //event handlers
+  const searchCoffee = (search: string) => {
+    if (search != 'empty') {
+      listRef?.current?.scrollToOffset({
+        animated: true,
+        offset: 0,
+      });
+
+      setCategoryIndex({index: 0, category: categories[0]});
+      setSortedCoffee(HomeScreenHelper.searchCoffeeResilt(coffeeList, search));
+    }
+  };
+
+  const resetSearchCoffee = () => {
+    listRef?.current?.scrollToOffset({
+      animated: true,
+      offset: 0,
+    });
+    setCategoryIndex({index: 0, category: categories[0]});
+    setSortedCoffee([...coffeeList]);
+    setSearchText('');
+  };
+
   return (
     <View style={styles.screenContainer}>
       <StatusBar backgroundColor={COLORS.primaryBlackHex} />
@@ -55,7 +83,7 @@ const HomeScreen = () => {
 
         {/* Search Input */}
         <View style={styles.InputContainer}>
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => searchCoffee(searchText)}>
             <CustomIcon
               name="search"
               size={FONTSIZE.size_18}
@@ -72,9 +100,23 @@ const HomeScreen = () => {
             placeholder="Find coffee....."
             style={styles.TextInputContainer}
             value={searchText}
-            onChangeText={(text: string) => setSearchText(text)}
+            onChangeText={(text: string) => {
+              setSearchText(text);
+              searchCoffee(searchText);
+            }}
             placeholderTextColor={COLORS.primaryLightGreyHex}
           />
+
+          {searchText.length > 0 && (
+            <TouchableOpacity onPress={() => resetSearchCoffee()}>
+              <CustomIcon
+                name="close"
+                size={FONTSIZE.size_16}
+                color={COLORS.primaryLightGreyHex}
+                style={styles.InputIcon}
+              />
+            </TouchableOpacity>
+          )}
         </View>
 
         {/* Category Scroller */}
@@ -86,6 +128,10 @@ const HomeScreen = () => {
             <View key={index} style={styles.CategoryViewContainer}>
               <TouchableOpacity
                 onPress={() => {
+                  listRef?.current?.scrollToOffset({
+                    animated: true,
+                    offset: 0,
+                  });
                   setCategoryIndex({index, category});
                   setSortedCoffee(
                     HomeScreenHelper.getCoffeeList(category, coffeeList),
@@ -108,9 +154,15 @@ const HomeScreen = () => {
           ))}
         </ScrollView>
 
-        {/* COffee list */}
+        {/* Coffee list */}
         <FlatList
+          ref={listRef}
           horizontal
+          ListEmptyComponent={
+            <View style={styles.EmptyListContainer}>
+              <Text style={styles.CategoryText}>No Coffee Found</Text>
+            </View>
+          }
           showsHorizontalScrollIndicator={false}
           data={sortedCoffee}
           contentContainerStyle={styles.FlatListContainer}
@@ -142,7 +194,7 @@ const HomeScreen = () => {
           data={beanList}
           contentContainerStyle={[
             styles.FlatListContainer,
-            styles.BeansListMarginBottom,
+            {marginBottom: tabBarHeight},
           ]}
           keyExtractor={(item: CoffeeState) => item.id}
           renderItem={({item}) => (

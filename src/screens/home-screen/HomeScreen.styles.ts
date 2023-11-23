@@ -1,4 +1,3 @@
-import {useBottomTabBarHeight} from '@react-navigation/bottom-tabs';
 import {
   BORDERRADIUS,
   COLORS,
@@ -6,9 +5,7 @@ import {
   FONTSIZE,
   SPACING,
 } from '../../theme/theme';
-import {StyleSheet} from 'react-native';
-
-const tabBarHeight = useBottomTabBarHeight();
+import {StyleSheet, Dimensions} from 'react-native';
 
 export const styles = StyleSheet.create({
   screenContainer: {
@@ -78,7 +75,10 @@ export const styles = StyleSheet.create({
     fontFamily: FONTFAMILY.poppins_medium,
     color: COLORS.secondaryLightGreyHex,
   },
-  BeansListMarginBottom: {
-    marginBottom: tabBarHeight,
+  EmptyListContainer: {
+    width: Dimensions.get('window').width - SPACING.space_30,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: SPACING.space_36 * 3.6,
   },
 });

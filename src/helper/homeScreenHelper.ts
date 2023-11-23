@@ -25,3 +25,14 @@ export const getCoffeeList = (category: string, data: CoffeeState[]) => {
     return data.filter((each: CoffeeState) => each.name === category);
   }
 };
+
+export const searchCoffeeResilt = (
+  coffeeList: CoffeeState[],
+  searchString: string,
+) => {
+  return [
+    ...coffeeList.filter((item: CoffeeState) =>
+      item.name.toLocaleLowerCase().includes(searchString.toLocaleLowerCase()),
+    ),
+  ];
+};
